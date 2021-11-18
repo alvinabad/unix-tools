@@ -30,15 +30,17 @@ case $ARCH in
         sync
 
         echo "Reading..."
+        openssl rand -base64 20 >> 1G.txt
         dd if=1G.txt of=/dev/null bs=100M count=10 iflag=direct
         sync
         ;;
     "Darwin x86_64"):
         echo "Writing..."
-        dd if=/dev/urandom of=1G.txt bs=100m count=10
+        dd if=/dev/zero of=1G.txt bs=100m count=10
         sync
 
         echo "Reading..."
+        openssl rand -base64 20 >> 1G.txt
         dd if=/dev/zero of=1G.txt bs=100m count=10
         sync
         ;;
