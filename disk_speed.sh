@@ -15,7 +15,7 @@ ds1() {
     sync
 
     echo "Reading..."
-    echo "xxxx" >> 1G.txt
+    openssl rand -base64 20 >> 1G.txt
     dd if=1G.txt of=/dev/null bs=100M count=10 iflag=fullblock,nocache
     sync
 }
@@ -35,7 +35,7 @@ case $ARCH in
         ;;
     "Darwin x86_64"):
         echo "Writing..."
-        dd if=/dev/zero of=1G.txt bs=100m count=10
+        dd if=/dev/urandom of=1G.txt bs=100m count=10
         sync
 
         echo "Reading..."
