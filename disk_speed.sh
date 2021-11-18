@@ -9,15 +9,20 @@ ARCH=`uname -ms`
 
 echo Disk Speed Test: $ARCH
 
+ds1() {
+    echo "Writing..."
+    dd if=/dev/zero of=1G.txt bs=100M count=10 oflag=direct iflag=fullblock,nocache
+    sync
+
+    echo "Reading..."
+    echo "xxxx" >> 1G.txt
+    dd if=1G.txt of=/dev/null bs=100M count=10 iflag=fullblock,nocache
+    sync
+}
+
 case $ARCH in
     "Linux x86_64"):
-        echo "Writing..."
-        dd if=/dev/zero of=1G.txt bs=100M count=10 oflag=direct
-        sync
-
-        echo "Reading..."
-        dd if=1G.txt of=/dev/null bs=100M count=10 iflag=direct
-        sync
+        ds1
         ;;
     "Linux armv7l"):
         echo "Writing..."
