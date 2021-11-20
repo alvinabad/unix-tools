@@ -2,10 +2,20 @@
 
 #-------------------------------------------------------------------------------
 # Enable ssh-agent
+# Source this in ~/.profile or ~/.bash_profile
+# Example:
+#     . $HOME/src/unix-tools/load-ssh-agent.sh 72h 
+#
+# Another way to set expiration time, is to set this ENV
+#     export SSH_AGENT_EXP=72h
 #-------------------------------------------------------------------------------
 
-EXPIRATION=72h
-#EXPIRATION=600s
+SSH_AGENT_EXP=${SSH_AGENT_EXP=72h}
+
+# if expiration is supplied at the command line
+if [ -n "$1" ]; then
+    SSH_AGENT_EXP=$1
+fi
 
 KEY_FILES="
     $HOME/.ssh/id_rsa
@@ -23,7 +33,7 @@ create_ssh_agent() {
     echo "Launching new ssh-sgent."
     mkdir -p $SA_DIR
     chmod 700 $SA_DIR
-    ssh-agent -t $EXPIRATION > $SA_FILE
+    ssh-agent -t $SSH_AGENT_EXP > $SA_FILE
     . $SA_FILE
 
     for k in $KEY_FILES
