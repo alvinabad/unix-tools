@@ -1,0 +1,10 @@
+unset HISTFILE
+
+PATH=/c/python3:/c/MinGW/bin:$PATH
+
+date >> ~/last.log
+
+#PS1='\h:\w\n\$ '
+PS1='\h \[\e[33m\]\w\[\e[0m\]\n\$ '
+
+

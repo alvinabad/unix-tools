@@ -1,0 +1,9 @@
+FontHeight=12
+AllowBlinking=yes
+CursorType=block
+RightClickAction=paste
+ScrollbackLines=100000
+Columns=132
+Rows=40
+Padding=8
+Font=Consolas
