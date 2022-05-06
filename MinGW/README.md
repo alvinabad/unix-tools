@@ -31,3 +31,8 @@ Open a CMD terminal
 ```
 python-2.7.18.amd64.msi --no-admin
 ```
+
+## Fix Git CRLF
+```
+git config --global core.autocrlf true
+```
