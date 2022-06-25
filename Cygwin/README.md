@@ -52,6 +52,23 @@ ssh-host-config
 
 Do not install as a service if you don't admin rights.
 
+4. Set up sshd config
+```
++++ /etc/sshd_config	2022-06-25 16:26:11.492135800 -0700
+@@ -34,7 +34,7 @@
+
+-#PubkeyAuthentication yes
++PubkeyAuthentication yes
+
+ # To disable tunneled clear text passwords, change to no here!
+-#PasswordAuthentication yes
++PasswordAuthentication no
+ #PermitEmptyPasswords no
+
+-#UseDNS no
++UseDNS no
+```
+
 4. Start SSH daemon
 
 ```
