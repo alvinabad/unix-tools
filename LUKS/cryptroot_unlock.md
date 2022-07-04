@@ -3,7 +3,7 @@
 ## Install packages
 ```
 sudo apt update
-sudo apt install dropbear keyutils busybox-initramfs
+sudo apt install dropbear keyutils busybox-initramfs dropbear-initramfs
 ```
 
 Optional: Install full busybox for more tools
@@ -19,8 +19,15 @@ ssh-keygen -f ~/.ssh/id_rsa.myubuntu
 Preferable, protect your private key with a passphrase.
 
 ## Copy your public key to dropbear's authorized_keys
+
+Ubuntu 18 and 20:
 ```
 sudo cp ~/.ssh/id_rsa.myubuntu.pub /etc/dropbear-initramfs/authorized_keys
+```
+
+Ubuntu 22:
+```
+sudo cp ~/.ssh/authorized_keys /etc/dropbear/initramfs/
 ```
 
 If you already have an existing key pair, extract the public key.

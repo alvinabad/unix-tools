@@ -20,8 +20,8 @@ fi
 KEY_FILES="
     $HOME/.ssh/id_rsa
     $HOME/.ssh/github.pem
+    $HOME/.ssh/id_rsa.socks5
 "
-#id_rsa.aabad
 
 SA_DIR=$HOME/.ssh
 SA_FILE=${SA_DIR}/sa
