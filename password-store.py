@@ -60,44 +60,42 @@ def system(cmd, input=None, tty=False, shell=False, donotsplit=False, bufsize=0)
     return (error_code, stdoutdata.rstrip(), stderrdata.rstrip())
 
 
-def decrypt(password_store_dir):
+def reencrypt(password_store_dir=None, recipient=None, verbose=False):
     """Decrypt password-store"""
 
+    # retrieve *.gpg files
     files = glob.glob("%s/**/*.gpg" % password_store_dir, recursive = True)
     for gpg_file in files:
-        txt_file = gpg_file.replace('.gpg', '.txt')
-
-        cmd = "gpg --output %s --decrypt %s" % (txt_file, gpg_file)
-        (errno, stdoutdata, stderrdata) = system(cmd)
+        # decrypt
+        cmd = "gpg --decrypt %s" % gpg_file
+        (errno, cleartext, stderrdata) = system(cmd)
         if errno != 0:
             print(stderrdata)
             sys.exit(1)
 
-        print(txt_file)
-
-def encrypt(password_store_dir, recipient):
-    """Decrypt password-store"""
-
-    files = glob.glob("%s/**/*.txt" % password_store_dir, recursive = True)
-    for txt_file in files:
-        gpg_file = txt_file.replace('.txt', '.gpg')
-        cmd = "gpg --yes --output %s --encrypt --recipient %s %s" % (gpg_file, recipient, txt_file)
-        (errno, stdoutdata, stderrdata) = system(cmd)
+        # encrypt with new GPG key email
+        cmd = "gpg --quiet --yes --output %s --encrypt --recipient %s" % (gpg_file, recipient)
+        (errno, stdoutdata, stderrdata) = system(cmd, input=cleartext)
         if errno != 0:
             print(stderrdata)
             sys.exit(1)
 
         print(gpg_file)
-        os.remove(txt_file)
 
+        # show encryption details
+        if verbose:
+            cmd = "gpg --list-packets %s" % gpg_file
+            (errno, stdoutdata, stderrdata) = system(cmd, input=cleartext)
+            print(stderrdata)
+            print("--------------------------------------------------------------------------------")
 
 if __name__ == '__main__':
     args = sys.argv[1:]
-    parser = argparse.ArgumentParser(description="Mass Decrypt/Encrypt of Password Store")
+    parser = argparse.ArgumentParser(description="Mass Re-encrypt of Password Store")
 
-    parser.add_argument("-e", "--encrypt", metavar='EMAIL', help="Encrypt Password Store using GPG Email or ID")
-    parser.add_argument("-d", "--decrypt", action='store_true', help="Decrypt Password Store")
+    parser.add_argument("--reencrypt", metavar='EMAIL', help="Re-encrypt Password Store using GPG Email or ID")
     parser.add_argument("password_store_dir", metavar='DIR', help="Password Store directory")
+    parser.add_argument("-v", "--verbose", action='store_true', help="Show GPG file details")
 
     if len(sys.argv) == 1:
         parser.print_help()
@@ -113,9 +111,7 @@ if __name__ == '__main__':
         print("ERROR: Not found: %s" % args.password_store_dir)
         sys.exit(1)
 
-    if args.decrypt:
-        decrypt(args.password_store_dir)
-    elif args.encrypt:
-        encrypt(args.password_store_dir, args.encrypt)
+    if args.reencrypt:
+        reencrypt(password_store_dir=args.password_store_dir, recipient=args.reencrypt, verbose=args.verbose)
     else:
         parser.print_help()
