@@ -1,0 +1,36 @@
+#!/bin/sh
+
+PREREQ=""
+
+prereqs()
+{
+	echo "$PREREQ"
+}
+
+case "$1" in
+    prereqs)
+        prereqs
+        exit 0
+        ;;
+esac
+
+. /usr/share/initramfs-tools/hook-functions
+
+copy_exec /usr/bin/bash /sbin
+copy_exec /usr/bin/awk /sbin
+copy_exec /usr/bin/grep /sbin
+copy_exec /bin/busybox /sbin
+
+copy_exec /usr/bin/lsblk
+copy_exec /usr/bin/blkid
+copy_exec /usr/bin/rsync
+copy_exec /usr/bin/scp
+copy_exec /usr/bin/ssh
+copy_exec /usr/bin/curl
+copy_exec /usr/bin/nmap
+copy_exec /usr/bin/nc
+copy_exec /etc/services
+
+cat <<EOF > "$DESTDIR/etc/profile"
+export PATH=$PATH:/sbin
+EOF
