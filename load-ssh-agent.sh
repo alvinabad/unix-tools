@@ -23,7 +23,7 @@ EOF
 }
 
 # set keyfiles to load
-KEY_FILES="${KEY_FILES:=-default}"
+KEY_FILES="${KEY_FILES=}"
 
 SA_DIR=$HOME/.ssh
 SA_FILE=${SA_DIR}/sa
