@@ -7,6 +7,8 @@
 #     . $HOME/src/unix-tools/load-ssh-agent.sh 72h 
 #
 # This may be added to ~/.profile or ~/.bash_profile to run upon log in.
+# Add to $HOME/.bash_logout
+# $HOME/src/unix-tools/load-ssh-agent.sh -k
 #-------------------------------------------------------------------------------
 
 usage() {
@@ -31,7 +33,7 @@ SA_FILE=${SA_DIR}/sa
 # Create an ssh-agent
 create_ssh_agent() {
     # killall any ssh-agents and create a new one
-    killall ssh-agent || true
+    pkill ssh-agent || true
 
     echo "Launching a new ssh-sgent."
     mkdir -p $SA_DIR
@@ -67,13 +69,17 @@ elif [ -f "$SA_FILE" ]; then
     echo "Found: $SA_FILE loading..."
     . $SA_FILE > /dev/null
 
-    # if ssh-agent is up
-    if ps -f -p $SSH_AGENT_PID && [ -e "$SSH_AUTH_SOCK" ]; then
-        # if desired to kill agent
+    # check if ssh-agent is up
+    if [ -e "$SSH_AUTH_SOCK" ] && \
+       [ -n "$SSH_AGENT_PID" ] && ps -f -p $SSH_AGENT_PID; then
+
+        # check if desired to kill agent
         if [ "$SSH_AGENT_EXP" = "-k" ]; then
             echo "Killing ssh-agent..."
             ssh-agent -k
-        # if keys have expired, add them
+            #rm -f $SA_FILE
+
+        # check if keys have expired, add them
         elif ! ssh-add -l; then
             echo "Keys have expired. Adding to agent..."
             for k in $KEY_FILES
@@ -82,15 +88,15 @@ elif [ -f "$SA_FILE" ]; then
                 ssh-add $k
             done
         fi
-    # if there is no ssh-agent running, create a new one
     else
+        # if there is no ssh-agent running, create a new one
         create_ssh_agent
     fi
 # if SA file does not exist, create a new ssh-agent
 else
-    echo "No ssh-agent found."
+    echo "No ssh-agent found from SA_FILE."
     if [ "$SSH_AGENT_EXP" = "-k" ]; then
-        echo "Killing ssh-agent..."
+        echo "Killing any ssh-agent..."
         ssh-agent -k
     else
         create_ssh_agent
