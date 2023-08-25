@@ -19,6 +19,7 @@ git
 openssh
 openssl
 unzip
+vim
 zip
 xz
 ```
