@@ -26,7 +26,7 @@ xz
 
 ## Set up Openssh Server
 
-1. Edigt Cygwin.bat
+1. Edit Cygwin.bat
 ```
 set CYGWIN=binmode ntsec
 ```
@@ -42,7 +42,7 @@ C:\cygwin\Cygwin.bat
 
 ```
 ssh-host-config
-```
+
 *** Query: Should privilege separation be used? <yes/no>: yes
 *** Query: New local account 'sshd'? <yes/no>: yes
 *** Query: Do you want to install sshd as a service?
@@ -51,7 +51,7 @@ ssh-host-config
 *** Query: Do you want to use a different name? (yes/no) no
 ```
 
-Do not install as a service if you don't admin rights.
+Do not install as a service if you don't have admin rights.
 
 4. Set up sshd config
 ```
