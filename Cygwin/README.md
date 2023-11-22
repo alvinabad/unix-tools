@@ -16,8 +16,10 @@ gcc
 make
 python
 git
+nc
 openssh
 openssl
+wget
 unzip
 vim
 zip
@@ -82,3 +84,10 @@ Do not install as a service if you don't have admin rights.
 ~/.ssh/authorized_keys
 ```
 
+6. Open port 22
+
+Run as administrator
+```
+netsh advfirewall firewall add rule name="Open SSH Port 22" dir=in action=allow protocol=TCP localport=22 remoteip=any
+
+```
