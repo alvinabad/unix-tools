@@ -1,29 +1,22 @@
 ## Download
+
+Download using Powershell
 ```
-setup-x86_64.exe
+Invoke-WebRequest -Uri "https://www.cygwin.com/setup-x86_64.exe" -OutFile setup-x86_64.exe
 ```
 
 ## Install without admin rights
 
 Open CMD terminal and run:
 ```
-setup-x86_64.exe --no-admin
+setup-x86_64.exe --no-admin --packages "curl,dos2unix,gcc,make,python,git,nc,openssh,openssl,wget,unzip,vim,zip,xz"
 ```
 
-## Packages to install
+Download and Install apt package manager
 ```
-gcc
-make
-python
-git
-nc
-openssh
-openssl
-wget
-unzip
-vim
-zip
-xz
+cd /usr/local/bin
+wget -c https://raw.githubusercontent.com/transcode-open/apt-cyg/master/apt-cyg
+chmod +x apt-cyg
 ```
 
 ## Set up Openssh Server
@@ -54,6 +47,11 @@ ssh-host-config
 ```
 
 Do not install as a service if you don't have admin rights.
+
+Start CYGWIN sshd service if installed
+```
+sc start cygsshd
+```
 
 4. Set up sshd config
 ```
@@ -90,4 +88,17 @@ Run as administrator
 ```
 netsh advfirewall firewall add rule name="Open SSH Port 22" dir=in action=allow protocol=TCP localport=22 remoteip=any
 
+```
+
+7. Add user
+
+Using GUI
+```
+lusrmgr.msc
+```
+
+Using CMD
+```
+net user /add build secret
+net localgroup administrators build /add
 ```
