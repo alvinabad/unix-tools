@@ -13,3 +13,8 @@ Command line equivalent
 ```
 ssh -o PubkeyAcceptedKeyTypes=+ssh-rsa -o StrictHostKeyChecking=no
 ```
+
+# Check sshd server ciphers
+```
+nmap --script ssh2-enum-algos -sV -p 22 ipaddress
+```
