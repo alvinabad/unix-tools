@@ -12,11 +12,19 @@ EOF
     exit 1
 }
 
+cleanup() {
+    if [ -f "$TEST_FILE" ]; then
+        rm -f "$TEST_FILE"
+    fi
+}
+
 dir=$1
 
 [ -d "$dir" ] || usage
 
 TEST_FILE="${dir}/1G.txt"
+
+trap cleanup EXIT
 
 sync
 
