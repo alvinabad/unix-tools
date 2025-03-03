@@ -16,6 +16,7 @@ cleanup() {
     if [ -f "$TEST_FILE" ]; then
         rm -f "$TEST_FILE"
     fi
+    sync
 }
 
 dir=$1
@@ -89,6 +90,3 @@ case $ARCH in
         echo "Unknown machine."
         ;;
 esac
-
-rm -f ${TEST_FILE}
-sync
