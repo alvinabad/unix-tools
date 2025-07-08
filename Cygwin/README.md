@@ -9,7 +9,7 @@ Invoke-WebRequest -Uri "https://www.cygwin.com/setup-x86_64.exe" -OutFile setup-
 
 Open CMD terminal and run:
 ```
-setup-x86_64.exe --no-admin --packages "curl,dos2unix,gcc,make,python,git,nc,openssh,openssl,procps-ng,wget,unzip,vim,zip,xz"
+setup-x86_64.exe --no-admin --packages "curl,dos2unix,gcc-core,mingw64-x86_64-gcc-core,make,python,git,nc,openssh,openssl,procps-ng,wget,unzip,vim,zip,xz"
 ```
 
 Download and Install apt package manager
