@@ -5,7 +5,7 @@ https://mobaxterm.mobatek.net/download-home-edition.html
 # Install packages
 ```
 apt install make \
-gcc \ 
+gcc-core \ 
 mingw64-x86_64-gcc-core 
 ```
 
