@@ -1,0 +1,40 @@
+cd $HOME
+
+if [ -f "$HOME/.bashrc" ]; then
+    . $HOME/.bashrc
+fi
+
+# Git Bash
+if [ -d "/c/cygwin64/bin" ]; then
+    PATH=$PATH:/c/cygwin64/bin
+fi
+
+if [ -d "/c/go/bin" ]; then
+    PATH=/c/go/bin:$PATH
+fi
+
+if [ -d "/cygdrive/c/go/bin" ]; then
+    PATH=/cygdrive/c/go/bin:$PATH
+fi
+
+echo $PATH
+
+type cygpath
+export GOCACHE="$(cygpath -w $HOME/.cache/go-build)"
+export GOPATH="$(cygpath -w $HOME/go)"
+
+cat <<EOF
+--------------------------------------------------------------------------------
+GOCACHE=$GOCACHE
+GOPATH=$GOPATH
+TERM=$TERM
+EDITOR=$EDITOR
+GIT_EDITOR=$GIT_EDITOR
+--------------------------------------------------------------------------------
+EOF
+
+KEY_FILES="
+$HOME/.ssh/id_rsa
+"
+
+. $HOME/src/unix-tools/load-ssh-agent.sh 24h

@@ -1,0 +1,15 @@
+unset HISTFILE
+
+alias pwdw='cygpath -w `pwd`'
+alias gs='git status'
+alias gl='git log --name-status'
+alias gb='git branch'
+alias ls='ls --color=auto'
+
+export TERM=xterm-256color
+export EDITOR=vim
+export GIT_EDITOR=vim
+
+#PS1='\u:\w \$ '
+
+PS1='MobaXterm:\h \[\e[33m\]\w\[\e[0m\]\n\$ '

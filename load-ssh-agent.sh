@@ -71,7 +71,7 @@ elif [ -f "$SA_FILE" ]; then
 
     # check if ssh-agent is up
     if [ -e "$SSH_AUTH_SOCK" ] && \
-       [ -n "$SSH_AGENT_PID" ] && ps -f -p $SSH_AGENT_PID; then
+       [ -n "$SSH_AGENT_PID" ] && ps -f -p $SSH_AGENT_PID >/dev/null 2>&1; then
 
         # check if desired to kill agent
         if [ "$SSH_AGENT_EXP" = "-k" ]; then
